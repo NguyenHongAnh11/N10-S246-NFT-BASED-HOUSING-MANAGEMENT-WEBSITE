@@ -1,0 +1,220 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <header class="p-3" style="background-color: #f8f9fa;" th:fragment="header">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <nav class="nav">
+                <a class="nav-link text-dark d-flex align-items-center me-4" href="#">
+                    <i class="bi bi-envelope-fill me-2"></i>
+                    <span>anhnhps29694@fpt.edu.vn</span>
+                </a>
+                <a class="nav-link text-dark d-flex align-items-center" href="#">
+                    <i class="bi bi-map-fill me-2"></i>
+                    <span>Công viên phần mềm Quang Trung</span>
+                </a>
+            </nav>
+            <ul class="nav d-flex align-items-center mb-0">
+                <li class="nav-item me-3">
+                    <a class="nav-link text-dark d-flex align-items-center" href="#" id="connectWallet"
+                       data-bs-toggle="modal" data-bs-target="#walletModal">
+                        <i class="bi bi-wallet-fill me-2"></i>
+                        <span>Ví của tôi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img th:src="${picture}" alt="User Avatar" width="32" height="32"
+                                 class="rounded-circle me-2 border border-2 border-primary">
+                            <strong th:text="${name}">Tài khoản</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-light text-small shadow" style="z-index: 1050;">
+                            <li><a class="dropdown-item" href="#">Đăng nhập</a></li>
+                            <li><a class="dropdown-item" href="#">Đăng ký</a></li>
+                            <li><a class="dropdown-item" href="#">Quên mật khẩu</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Modal wallet-->
+    <div th:fragment="wallet" class="modal fade" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-sm">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="walletModalLabel">Thông tin ví</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/50" alt="Wallet Icon" class="me-2 rounded-circle">
+                        <h6 class="mb-0">Tài khoản kết nối</h6>
+                    </div>
+                    <p id="walletInfo" class="bg-light p-2 rounded border"></p> <!-- Nơi hiển thị thông tin ví -->
+                </div>
+                <div class="modal-footer border-top-0">
+                    <!-- Nút kết nối ví -->
+                    <button type="button" class="btn btn-primary" id="connectWalletButton">Kết nối ví</button>
+                    <!-- Nút đăng xuất -->
+                    <button type="button" class="btn btn-danger" id="logoutWalletButton" style="display: none;">Đăng
+                        xuất
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Menu -->
+    <nav th:fragment="menu" class="navbar navbar-expand-lg p-3 shadow"
+         style="position: sticky; top: 0; z-index: 1020; background-color: white;">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-primary" th:href="@{/layout/home}">Quản Lý Nhà</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold" aria-current="page" th:href="@{/layout/home}">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" th:href="@{/layout/product}">Danh sách </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Thêm
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item fw-bold" href="#">Đăng Tin Mới</a></li>
+                            <li><a class="dropdown-item fw-bold" th:href="@{/Adminproperty}">Quản Lý Tin Đăng</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item fw-bold" href="#">Cài Đặt</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/layout/contact}" class="nav-link fw-bold">Liên Hệ</a>
+                    </li>
+                </ul>
+
+                <a class="nav-link fw-bold position-relative" th:href="@{/layout/favorite}">
+                    <i class="bi bi-heart fs-4" style="color: #FF5733"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{favorite.count}}<span
+                            class="visually-hidden">unread messages</span></span>
+                </a>
+
+
+                <form class="d-flex ms-3" method="post">
+                    <button class="btn btn-light rounded-pill d-flex align-items-center"
+                            style="background-color: #FF5733; color: white;" type="button"
+                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <i class="bi bi-plus-circle me-2"></i> Đăng Tin
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal đăng tin -->
+    <div th:fragment="post" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Đăng Tin</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/properties/create}" method="post">
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Loại nhà</label>
+                            <input type="text" class="form-control" id="type" name="type" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Giá</label>
+                            <input type="number" class="form-control" id="price" name="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Mô tả</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                      required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="images" class="form-label">Hình ảnh</label>
+                            <input type="file" class="form-control" id="images" name="images" required>
+                        </div>
+                        <!-- Thêm phần chọn trạng thái -->
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Trạng thái</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="" disabled selected>Chọn trạng thái</option>
+                                <option value="Available">Có sẵn</option>
+                                <option value="Rented">Đã cho thuê</option>
+                                <option value="Under Maintenance">Đang bảo trì</option>
+                                <!-- Thêm các trạng thái khác nếu cần -->
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Đăng Tin</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carousel -->
+    <div th:fragment="carousel" id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://designercomvn.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/08/31150148/thiet-ke-banner-villa-biet-thu-chuyen-nghiep-7.jpg"
+                     class="d-block w-100" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://designercomvn.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/08/31150148/thiet-ke-banner-villa-biet-thu-chuyen-nghiep-7.jpg"
+                     class="d-block w-100" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://designercomvn.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/08/31150148/thiet-ke-banner-villa-biet-thu-chuyen-nghiep-7.jpg"
+                     class="d-block w-100" alt="Slide 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>

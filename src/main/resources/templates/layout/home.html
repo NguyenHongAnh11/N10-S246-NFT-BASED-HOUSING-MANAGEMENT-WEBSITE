@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="dynamic(view)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Trang Chủ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+    <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+</head>
+
+<body ng-app="Property-Favorite-app" ng-controller="Property-Favorite-ctrl">
+<!-- Thông báo yêu thích (Modal) -->
+<div class="modal fade" id="favoriteModal" tabindex="-1" aria-labelledby="favoriteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="favoriteModalLabel">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ favorite.message }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{/layout/header :: header}"></div>
+<div th:replace="~{/layout/header :: wallet}"></div>
+<div th:replace="~{/layout/header :: menu}"></div>
+<div th:replace="~{/layout/header :: post}"></div>
+<div th:replace="~{/layout/header :: carousel}"></div>
+
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4" th:each="property : ${properties}">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden property-card">
+                <div class="card-img-top-wrapper" style="height: 300px; width: 100%; overflow: hidden;">
+                    <img th:src="@{|/images/${property.images}|}" class="card-img-top" alt="Card image"
+                         style="height: 100%; width: 100%; object-fit: cover; object-position: center;">
+                </div>
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title text-primary mb-3" th:text="${property.type}">Property type</h5>
+                        <p class="card-text text-muted mb-2" th:text="${property.description}">Property description</p>
+                        <p class="card-text text-muted mb-2">
+                            <strong>Địa chỉ: </strong><span th:text="${property.address}">Property address</span>
+                        </p>
+                        <p class="card-text text-dark fw-bold">Giá: <span th:text="${property.price}"></span> $</p>
+                    </div>
+                    <a th:href="@{|/propertyDetail/${property.propertyId}|}"
+                       class="btn btn-primary rounded-pill mt-3 btn-detail">Xem chi tiết</a>
+                    <!-- Nút yêu thích được định vị ở góc trên bên phải -->
+                    <a th:attr="ng-click=@{|favorite.add(${property.propertyId})|}"
+                       class="btn btn-favorite"><i class="bi bi-heart"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+    /* CSS cho Nút Yêu Thích */
+    .btn-favorite {
+        background-color: #FF6F61; /* Màu nền của nút */
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px; /* Chiều rộng của nút */
+        height: 40px; /* Chiều cao của nút */
+        border-radius: 50%; /* Để tạo hình tròn */
+        font-size: 1.5rem; /* Kích thước biểu tượng */
+        color: white; /* Màu của biểu tượng trái tim */
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+    }
+
+    .btn-favorite:hover {
+        background-color: #FF5733; /* Màu nền khi hover */
+        transform: scale(1.1); /* Hiệu ứng phóng to khi hover */
+    }
+
+    .btn-favorite:active {
+        transform: scale(0.95); /* Hiệu ứng khi nhấn */
+    }
+
+    .property-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative; /* Để vị trí tuyệt đối của nút hoạt động */
+    }
+
+    .property-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img-top-wrapper img {
+        transition: transform 0.3s ease;
+    }
+
+    .property-card:hover .card-img-top-wrapper img {
+        transform: scale(1.05);
+    }
+
+    .btn-detail {
+        background-color: #FF6F61;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-detail:hover {
+        background-color: #FF5733;
+    }
+
+    .card-title {
+        color: #FF6F61 !important;
+        font-weight: bold;
+    }
+
+    .card-body {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+</style>
+
+<!-- Footer -->
+<div th:replace="~{/layout/footer.html}"></div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="/wallet.js"></script>
+<script src="/PropertyFavorite.js"></script>
+</body>
+
+</html>

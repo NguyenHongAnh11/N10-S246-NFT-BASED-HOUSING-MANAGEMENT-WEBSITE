@@ -1,4 +1,4 @@
-package com.poly.datn_n10.enity;
+package com.poly.datn_n10.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

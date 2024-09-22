@@ -1,6 +1,6 @@
 package com.poly.datn_n10.dao;
 
-import com.poly.datn_n10.enity.Role;
+import com.poly.datn_n10.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

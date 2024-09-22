@@ -1,16 +1,15 @@
 package com.poly.datn_n10.controller;
 
 import com.poly.datn_n10.dao.UserDao;
-import com.poly.datn_n10.enity.User;
+import com.poly.datn_n10.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("*") // Cho phép truy cập từ mọi nguồn
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/rest/user")
 public class UserController {
@@ -19,7 +18,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userDao.findAll(); // Lấy tất cả người dùng
+        return userDao.findAll();
     }
 
     @GetMapping("/{id}")

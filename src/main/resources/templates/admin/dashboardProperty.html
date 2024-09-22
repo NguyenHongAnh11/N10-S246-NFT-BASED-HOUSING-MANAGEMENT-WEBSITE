@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Properties</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar vh-100">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="bi bi-house-door"></i> User manager
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/Adminuser}">
+                            <i class="bi bi-person"></i> Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/Adminproperty}">
+                            <i class="bi bi-bar-chart"></i> Property
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-gear"></i> NFT
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-auto">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle p-3"
+                       id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://via.placeholder.com/30" alt="" width="30" height="30"
+                             class="rounded-circle me-2">
+                        <strong>John Doe</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom shadow-sm">
+                <h1 class="h2">Dashboard</h1>
+            </div>
+            <form th:action="@{/Adminproperty/create}" method="post" th:object="${property}"
+                  enctype="multipart/form-data">
+                <input type="hidden" name="propertyId" th:value="${property.propertyId}"/>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" th:value="${property.address}"
+                           required/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="type" class="form-label">Type</label>
+                    <input type="text" class="form-control" id="type" name="type" th:value="${property.type}" required/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" th:value="${property.price}"
+                           required/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-control" id="status" name="status" required>
+                        <option value="Available" th:selected="${property.status == 'Available'}">Available</option>
+                        <option value="Unavailable" th:selected="${property.status == 'Unavailable'}">Unavailable
+                        </option>
+                        <option value="Pending" th:selected="${property.status == 'Pending'}">Pending</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                              th:text="${property.description}" required></textarea>
+                </div>
+
+                <!-- Image field -->
+                <div class="mb-3">
+                    <label for="image" class="form-label">Property Image</label>
+                    <div id="currentImage" th:if="${property.images != null}">
+                        <img th:src="@{/images/{filename}(filename=${property.images})}" alt="Current Image"
+                             class="img-thumbnail" style="width: 150px; height: auto;">
+                    </div>
+                    <input type="file" class="form-control" id="image" name="image"/>
+                </div>
+
+
+                <button type="submit" class="btn btn-success">Create</button>
+                <button type="submit" class="btn btn-success">Update</button>
+
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+
+            </form>
+
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Property ID</th>
+                    <th>Address</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="property : ${properties}">
+                    <td th:text="${property.propertyId}"></td>
+                    <td th:text="${property.address}"></td>
+                    <td th:text="${property.type}"></td>
+                    <td th:text="${property.price}"></td>
+                    <td th:text="${property.status}"></td>
+                    <td th:text="${property.description}"></td>
+                    <td><img th:src="@{/images/{filename}(filename=${property.images})}" alt="Property Image"
+                             class="img-thumbnail" style="width: 100px; height: auto;"/></td>
+                    <td>
+                        <a th:href="@{/Adminproperty/edit/{id}(id=${property.propertyId})}"
+                           class="btn btn-warning">Edit</a>
+                        <form th:action="@{/Adminproperty/delete/{id}(id=${property.propertyId})}" method="post"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</div>
+<script>
+    function resetForm() {
+        // Xóa từng input theo ID
+        document.getElementById('address').value = '';
+        document.getElementById('type').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('status').selectedIndex = 0;
+        document.getElementById('description').value = '';
+        document.getElementById('currentImage').style.display = 'none';
+
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
