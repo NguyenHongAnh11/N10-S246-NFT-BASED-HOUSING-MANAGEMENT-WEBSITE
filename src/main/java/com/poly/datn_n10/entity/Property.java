@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "Properties", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"address", "type"}) // Đặt ràng buộc unique trên cột address và type
+        @UniqueConstraint(columnNames = {"address", "type"})
 })
 public class Property {
 
@@ -43,13 +43,14 @@ public class Property {
     @Column(nullable = false, length = 10)
     private String status;
 
-    // Tự động thêm ngày tạo
+    @Column(nullable = false)
+    private Double size;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
     private Date createdAt;
 
-    // Tự động cập nhật ngày sửa
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")

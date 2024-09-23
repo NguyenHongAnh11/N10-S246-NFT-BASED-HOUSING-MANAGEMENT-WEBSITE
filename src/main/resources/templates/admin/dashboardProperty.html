@@ -94,6 +94,12 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="size" class="form-label">Diện tích (m²)</label>
+                    <input type="number" class="form-control" id="size" name="size" th:value="${property.size}"
+                           required/>
+                </div>
+
+                <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
                     <input type="number" class="form-control" id="price" name="price" th:value="${property.price}"
                            required/>
@@ -137,9 +143,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Property ID</th>
+                    <th>ID</th>
                     <th>Address</th>
                     <th>Type</th>
+                    <th>Size</th>
                     <th>Price</th>
                     <th>Status</th>
                     <th>Description</th>
@@ -152,6 +159,7 @@
                     <td th:text="${property.propertyId}"></td>
                     <td th:text="${property.address}"></td>
                     <td th:text="${property.type}"></td>
+                    <td th:text="${property.size}"></td>
                     <td th:text="${property.price}"></td>
                     <td th:text="${property.status}"></td>
                     <td th:text="${property.description}"></td>
@@ -176,6 +184,7 @@
         // Xóa từng input theo ID
         document.getElementById('address').value = '';
         document.getElementById('type').value = '';
+        document.getElementById('size').value = '';
         document.getElementById('price').value = '';
         document.getElementById('status').selectedIndex = 0;
         document.getElementById('description').value = '';
